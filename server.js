@@ -117,6 +117,32 @@ app.post("/api/feedback", upload.single("image"), async (req, res) => {
  * (Optional) Admin endpoint to list feedbacks (protect later with a token)
  * GET /api/feedbacks?limit=20
  */
+// ADMIN LOGIN CHECK
+app.post("/api/admin-login", (req, res) => {
+  const { key } = req.body;
+
+  if (!key) {
+    return res.status(400).json({ error: "Missing key" });
+  }
+
+  if (key === process.env.ADMIN_SECRET) {
+    return res.json({ ok: true });
+  }
+
+  return res.status(401).json({ error: "Invalid password" });
+});
+
+/** */
+app.delete("/api/delete/:id", async (req, res) => {
+  try {
+    await Feedback.findByIdAndDelete(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: "Delete failed" });
+  }
+});
+
+
 app.get("/api/feedbacks", async (req, res) => {
   try {
     const limit = Math.min(Number(req.query.limit) || 50, 200);
