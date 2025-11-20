@@ -11,9 +11,16 @@ const Feedback = require("./models/Feedback");
 const app = express();
 
 // CORS
-const allowed = process.env.ALLOWED_ORIGIN || "*";
 app.use(cors({
-  origin: allowed === "*" ? "*" : allowed,
+  origin: [
+    "*",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://localhost",
+    "https://ishow-feedback-frontend.vercel.app", // if you host frontend later
+  ],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
 }));
 
 // JSON body parsing (for non-file submissions)
