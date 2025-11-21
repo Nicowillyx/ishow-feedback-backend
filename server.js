@@ -12,16 +12,26 @@ const app = express();
 
 // CORS
 app.use(cors({
-  origin: [
-    "*",
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-    "http://localhost",
-    "https://ishow-feedback-frontend.vercel.app", // if you host frontend later
-  ],
-  methods: ["GET", "POST"],
+  origin: function (origin, callback) {
+    const allowed = [
+      "null",
+      "http://127.0.0.1:5500",
+      "http://localhost:5500",
+      "http://localhost",
+      "https://ishow-feedback-admin.vercel.app",  
+      "https://ishow-feedback-frontend.vercel.app"
+    ];
+
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
+  methods: ["GET", "POST", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
+
 
 // JSON body parsing (for non-file submissions)
 app.use(express.json());
