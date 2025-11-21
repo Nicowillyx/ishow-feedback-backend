@@ -125,7 +125,7 @@ app.post("/api/admin-login", (req, res) => {
     return res.status(400).json({ error: "Missing key" });
   }
 
-  if (key === process.env.ADMIN_SECRET) {
+  if (key === process.env.ADMIN_PASSWORD) {
     return res.json({ ok: true });
   }
 
