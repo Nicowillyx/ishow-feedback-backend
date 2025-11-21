@@ -15,11 +15,7 @@ app.use(cors({
   origin: function (origin, callback) {
     const allowed = [
       "null",
-      "http://127.0.0.1:5500",
-      "http://localhost:5500",
-      "http://localhost",
-      "https://ishow-feedback-admin.vercel.app",  
-      "https://ishow-feedback-frontend.vercel.app"
+      "https://nicowillyx.github.io/ishow-feedback-frontend/"
     ];
 
     if (!origin || allowed.includes(origin)) {
