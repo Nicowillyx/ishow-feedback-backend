@@ -91,6 +91,15 @@ app.post("/api/feedback", upload.single("image"), async (req, res) => {
     let imageUrl = null;
 
     if (req.file) {
+// rating to main website
+      app.get("/api/average-rating", async (req, res) => {
+        const result = await Feedback.aggregate([
+          { $group: { _id: null, avg: { $avg: "$rating" } } }
+        ]);
+        
+        res.json({ ok: true, average: Number(result[0]?.avg || 0).toFixed(1) });
+      });
+
       // upload buffer to Cloudinary
       const streamUpload = (buffer) => {
         return new Promise((resolve, reject) => {
