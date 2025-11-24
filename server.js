@@ -92,37 +92,7 @@ app.post("/api/feedback", upload.single("image"), async (req, res) => {
 
     if (req.file) {
 
-      //route for random feedbacks
-      app.get("/api/random-feedbacks", async (req, res) => {
-        try {
-          const limit = Math.min(Number(req.query.limit) || 3, 10);
-          
-          const rows = await Feedback.aggregate([
-            { $sample: { size: limit } }
-          ]);
-          
-          res.json({ ok: true, rows });
-        } catch (err) {
-          res.status(500).json({ ok: false, error: "Server error" });
-        }
-      });
-
-// rating to main website
-      app.get("/api/average-rating", async (req, res) => {
-        try {
-          const result = await Feedback.aggregate([
-            { $group: { _id: null, avg: { $avg: "$rating" } } }
-          ]);
-          
-          const average = result[0]?.avg ? result[0].avg.toFixed(1) : "0.0";
-          
-          res.json({ ok: true, average });
-        } catch (err) {
-          res.status(500).json({ ok: false, error: "Server error" });
-        }
-      });
-
-      // upload buffer to Cloudinary
+     // upload buffer to Cloudinary
       const streamUpload = (buffer) => {
         return new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
