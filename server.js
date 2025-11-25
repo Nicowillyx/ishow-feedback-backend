@@ -21,7 +21,8 @@ app.use(cors({
       "http://localhost",  
       "https://ishow-feedback-frontend.vercel.app",
       "https://nicowillyx.github.io",
-      "https://nicowillyx.github.io/ishow-feedback-frontend/"
+      "https://nicowillyx.github.io/ishow-feedback-frontend/",
+      "https://nicowillyx.github.io/Ishowgarmentsworld1/"
     ];
 
     if (!origin || allowed.includes(origin)) {
