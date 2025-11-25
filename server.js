@@ -16,6 +16,7 @@ app.use(cors({
     const allowed = [
       "null",
       "http://127.0.0.1:5500",
+      "http://127.0.0.1:5501",
       "http://localhost:5500",
       "http://localhost",  
       "https://ishow-feedback-frontend.vercel.app",
