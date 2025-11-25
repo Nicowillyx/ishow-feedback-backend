@@ -168,6 +168,44 @@ app.get("/api/feedbacks", async (req, res) => {
   }
 });
 
+/**
+ * GET /api/random-feedbacks?limit=3
+ * Returns random feedback entries
+ */
+app.get("/api/random-feedbacks", async (req, res) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 3, 10);
+
+    const rows = await Feedback.aggregate([
+      { $sample: { size: limit } }
+    ]);
+
+    res.json({ ok: true, rows });
+  } catch (err) {
+    console.error("GET /api/random-feedbacks error:", err);
+    res.status(500).json({ ok: false, error: "Server error" });
+  }
+});
+
+/**
+ * GET /api/average-rating
+ * Calculates the average rating
+ */
+app.get("/api/average-rating", async (req, res) => {
+  try {
+    const result = await Feedback.aggregate([
+      { $group: { _id: null, avg: { $avg: "$rating" } } }
+    ]);
+
+    const average = result[0]?.avg ? result[0].avg.toFixed(1) : "0.0";
+
+    res.json({ ok: true, average });
+  } catch (err) {
+    console.error("GET /api/average-rating error:", err);
+    res.status(500).json({ ok: false, error: "Server error" });
+  }
+});
+
 // Start server
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
