@@ -22,7 +22,8 @@ app.use(cors({
       "https://ishow-feedback-frontend.vercel.app",
       "https://nicowillyx.github.io",
       "https://nicowillyx.github.io/ishow-feedback-frontend/",
-      "https://nicowillyx.github.io/Ishowgarmentsworld1/"
+      "https://nicowillyx.github.io/Ishowgarmentsworld1/",
+      "https://ishowgarmentsworld1.vercel.app"
     ];
 
     if (!origin || allowed.includes(origin)) {
